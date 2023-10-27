@@ -1,5 +1,5 @@
 <?php
-namespace app\libraries;
+
 class Controller
 {
 

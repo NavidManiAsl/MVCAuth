@@ -1,6 +1,6 @@
 <?php
 
-use app\libraries\Controller;
+
 
 class Pages extends Controller
 {

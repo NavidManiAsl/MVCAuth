@@ -1,5 +1,6 @@
 <?php
 
+
 class Core
 {
     protected $currentController = 'Pages';
@@ -9,7 +10,7 @@ class Core
     public function __construct()
     {
         $url = $this->getUrl();
-        if (isset($url) && file_exists('../app/controllers/' . ucwords($url[0]) . '.php')) {
+        if (isset($url) && file_exists( __DIR__.'../app/controllers/' . ucwords($url[0]) . '.php')) {
             $this->currentController = ucwords($url[0]);
             unset($url[0]);
         }
@@ -30,7 +31,7 @@ class Core
             $this->currentMethod
         ], $this->params);
 
-    }
+            }
 
     public function getUrl()
     {

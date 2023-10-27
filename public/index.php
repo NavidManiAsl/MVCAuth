@@ -1,3 +1,5 @@
 <?php 
-phpinfo();
+require_once('../app/bootstrap.php');
+
+$app = new Core();
 ?>

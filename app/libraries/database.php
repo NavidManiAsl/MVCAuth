@@ -10,9 +10,9 @@ class Database
     private $stmt;
     private $error;
 
-    public function __construct() 
+    public function __construct()
     {
-        $dsn = 'mysql:host='. $this->Host . ';dbname='. $this->Name;
+        $dsn = 'mysql:host=' . $this->Host . ';dbname=' . $this->Name;
         $options = [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_PERSISTENT => true,
@@ -20,12 +20,83 @@ class Database
 
         try {
             $this->dbh = new PDO($dsn, $this->User, $this->Password, $options);
-            
-            
+
+
         } catch (PDOException $e) {
             $this->error = $e->getMessage();
             echo $this->error;
         }
+    }
+
+    /**
+     * Prepares a SQL query for execution and sets it as the active prepared statement.
+     * @return void
+     */
+    public function query($query)
+    {
+        $this->stmt = $this->dbh->prepare($query);
+    }
+
+    /**
+     * Binds a value to a parameter in the prepared statement with the appropriate data type.
+     * @return void
+     */
+    public function bind($param, $value, $type = null)
+    {
+        switch ($type === null) {
+            case is_bool($value):
+                $type = PDO::PARAM_BOOL;
+                break;
+            case is_int($value):
+                $type = PDO::PARAM_INT;
+                break;
+            case is_null($value):
+                $type = PDO::PARAM_NULL;
+                break;
+            default:
+                $type = PDO::PARAM_STR;
+        }
+
+        $this->stmt->bindValue($param, $value, $type);
+    }
+
+
+    /**
+     * Execute a statement
+     * @return bool
+     */
+    public function execute()
+    {
+        return $this->stmt->execute();
+    }
+
+    /**
+     * Executes the prepared statement and returns all rows as an array of objects.
+     * @return array
+     */
+    public function resultSet()
+    {
+        $this->execute();
+        return $this->stmt->fetchAll(PDO::FETCH_OBJ);
+    }
+
+    /**
+     * Executes the prepared statement and returns a single row as an object.
+     * @return mixed
+     */
+    public function result()
+    {
+        $this->execute();
+        return $this->stmt->fetch(PDO::FETCH_OBJ);
+    }
+
+    /**
+     * Get the number of the affected rows after am execution.
+     * @return int
+     */
+    public function rowCount()
+    {
+        return $this->stmt->rowCount();
     }
 
 

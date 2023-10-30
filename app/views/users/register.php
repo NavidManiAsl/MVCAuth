@@ -6,11 +6,11 @@ require_once(APP_ROOT . "/views/partials/header.php");
     <p>Please fill all the fields to register</p>
     <div >
         <form action="<?php echo URI ?>/users/register" method="post" class="register_form">
-            <input type="text" placeholder="Username" name="username" class="<?php echo !empty($data['username_error']) ? "register_input_err" : "register_input" ?>">
+            <input type="text" value="<?php echo $data['username']?>" placeholder="Username" name="username" class="<?php echo !empty($data['username_error']) ? "register_input_err" : "register_input" ?>">
             <span class="<?php echo !empty($data['username_error']) ? "register_span_err" : "register_span" ?>">
                 <?php echo !empty($data['username_error']) ? $data['username_error'] : "" ?>
             </span>
-            <input type="email" placeholder="Email" name="email" class="<?php echo !empty($data['email_error']) ? "register_input_err" : "register_input" ?>">
+            <input type="email" value="<?php echo $data['email']?>" placeholder="Email" name="email" class="<?php echo !empty($data['email_error']) ? "register_input_err" : "register_input" ?>">
             <span class="<?php echo !empty($data['email_error']) ? "register_span_err" : "register_span" ?>">
                 <?php echo !empty($data['email_error']) ? $data['email_error'] : "" ?>
             </span>

@@ -10,7 +10,7 @@ class Validator
     public static function registerValidation($data)
     {
         $validatedData = [];
-
+        $data['username'] = trim($data['username']);
         if (
             empty($data['username'])
             || strlen($data['username']) < 3
@@ -20,7 +20,7 @@ class Validator
             $validatedData['username'] = $data['username'];
         }
 
-
+        $data['email'] = trim($data['email']);
         if (
             empty($data['email'])
             || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)
@@ -39,7 +39,7 @@ class Validator
             $validatedData['password'] = $data['password'];
         }
 
-        if ($data['password'] !== $data['password_confirmation']) {
+        if ($data['password'] !== $data['password_confirmation'] || empty($data['password'])) {
             $validatedData['password_confirmation_error'] = 'Passwords do not match';
         } else {
             $validatedData['password_confirmation'] = $data['password_confirmation'];

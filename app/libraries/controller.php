@@ -5,11 +5,16 @@ class Controller
 
     protected function model($model)
     {
-        if (file_exists(__DIR__ . '../app/models/' . ucfirst($model) . '.php')) {
+        if (file_exists(APP_ROOT.'/models/' . ucfirst($model) . '.php')) {
            
-            require_once(__DIR__ . '../app/models/' . ucfirst($model) . '.php');
-            return new $model;
-        }
+            require_once(APP_ROOT . '/models/' . ucfirst($model) . '.php');
+            if ($model === 'user') {
+                return new User( new Database );
+            } else {
+                return new $model;
+            }
+            
+        }else{ }
     }
 
     protected function view($view,$data=[])

@@ -1,5 +1,5 @@
 <?php
-
+namespace app\validation;
 class Validator
 {
     /**
@@ -60,7 +60,7 @@ class Validator
             empty($validatedData['username_error'])
             && empty($validatedData['email_error'])
             && empty($validatedData['password_error'])
-            && empty($validatedData['password_confirmed_error'])
+            && empty($validatedData['password_confirmation_error'])
         )
             ? $validatedData
             : false;

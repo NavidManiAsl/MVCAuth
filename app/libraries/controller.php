@@ -8,6 +8,7 @@ class Controller
         if (file_exists(APP_ROOT.'/models/' . ucfirst($model) . '.php')) {
            
             require_once(APP_ROOT . '/models/' . ucfirst($model) . '.php');
+            //TODO make this part dynamic ASAP
             if ($model === 'user') {
                 return new User( new Database );
             } else {

@@ -1,13 +1,26 @@
 <?php
 namespace app\validation;
-class Validator
+
+
+use Controller;
+
+/**
+ * TODO: refactor using dependency injection 
+ */
+
+class Validator extends Controller
 {
+    private $model;
+    public function __construct($model)
+    {
+        $this->model = $model;
+    }
     /**
      * validate user input in the register form.
      * @param array $data
      * @return array
      */
-    public static function registerValidation($data)
+     public function registerValidation($data)
     {
         $validatedData = [];
         $data['username'] = trim($data['username']);
@@ -26,6 +39,8 @@ class Validator
             || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)
         ) {
             $validatedData['email_error'] = 'Please enter a valid email';
+        }elseif ($this->model->findByEmail($data['email'])) {
+            $validatedData['email_error'] = 'The email is already taken';
         } else {
             $validatedData['email'] = $data['email'];
         }
@@ -52,10 +67,10 @@ class Validator
      * cheks if the form data is valid
      * @return bool|array
      */
-    public static function registerDataIsValid($data)
+    public function registerDataIsValid($data)
     {
 
-        $validatedData = self::registerValidation($data);
+        $validatedData = $this->registerValidation($data);
         return (
             empty($validatedData['username_error'])
             && empty($validatedData['email_error'])
@@ -72,9 +87,9 @@ class Validator
      * return the validated form data.
      * @return null|array
      */
-    public static function validatedFormData($data)
+    public function validatedFormData($data)
     {
-        if (self::registerDataIsValid($data)) {
+        if ($this->registerDataIsValid($data)) {
            return $data;
         }
     }

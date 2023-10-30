@@ -17,6 +17,11 @@ class Users extends Controller
             "password_confirmation_error" => "",
         ];
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            foreach ($_POST as $key => $value) {
+                $_POST[$key] = htmlspecialchars($value, ENT_QUOTES, 'utf-8');
+            }
+
             if (Validator::registerDataIsValid($_POST)) {
                 $this->view('users.login');
             } else {

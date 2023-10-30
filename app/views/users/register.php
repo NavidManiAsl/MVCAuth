@@ -18,9 +18,9 @@ require_once(APP_ROOT . "/views/partials/header.php");
             <span class="<?php echo !empty($data['password_error']) ? "register_span_err" : "register_span" ?>">
                 <?php echo !empty($data['password_error']) ? $data['password_error'] : "" ?>
             </span>
-            <input type="password" placeholder="Re-enter password" name="password_confirmed" class="<?php echo !empty($data['password_confirmed_error']) ? "register_input_err" : "register_input" ?>" >
-            <span class="<?php echo !empty($data['password_confirmed_error']) ? "register_span_err" : "register_span" ?>">
-                <?php echo !empty($data['password_confirmed_error']) ? $data['password_confirmed_error'] : "" ?>
+            <input type="password" placeholder="Re-enter password" name="password_confirmation" class="<?php echo !empty($data['password_confirmation_error']) ? "register_input_err" : "register_input" ?>" >
+            <span class="<?php echo !empty($data['password_confirmation_error']) ? "register_span_err" : "register_span" ?>">
+                <?php echo !empty($data['password_confirmation_error']) ? $data['password_confirmation_error'] : "" ?>
             </span>
             <button class="register_button">Register</button>
         </form>

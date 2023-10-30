@@ -11,17 +11,14 @@ class Users extends Controller
                 "username" => "",
                 "email" => "",
                 "password" => "",
-                "password_confirmed" => "",
+                "password_confirmation" => "",
                 "username_error" => "",
                 "email_error" => "",
                 "password_error" => "",
-                "password_confirmed_error" => "",
+                "password_confirmation_error" => "",
             ];
             $this->view("users.register", $data);
         }
-
-
-
     }
     public function login(){$this->view("users.login");}
 }

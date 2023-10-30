@@ -1,0 +1,46 @@
+.register_window {
+    display: flex;
+
+    align-items: center;
+    flex-direction: column;
+
+
+}
+
+.register_form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.register_input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+.register_button {
+    padding: 3px 6px;
+    font-weight: 500;
+    border-radius: 5px;
+    
+}
+.register_button:hover {
+    background-color: azure;
+    cursor: pointer;
+    
+    
+}
+.register_input_err {
+    border:1px red solid;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+.register_span {
+    display: hidden;
+}
+.register_span_err {
+    color: red  ;
+}

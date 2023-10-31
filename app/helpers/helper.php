@@ -4,7 +4,7 @@
  * Rediret to a certain page
  * @return void
  */
-function rediret($page)
+function redirect($page)
 {
     header('location:' . URI . $page);
 }

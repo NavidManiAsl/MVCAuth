@@ -12,6 +12,11 @@ class Users extends Controller
         $this->validator = new Validator($this->model);
     }
 
+    public function index()
+    {
+        $this->view('users.index');
+    }
+
     public function register()
     {
 
@@ -34,7 +39,6 @@ class Users extends Controller
             if ($this->validator->registerDataIsValid($_POST)) {
                 try {
                     $this->model->create($_POST);
-                    echo 'hello';
                     flash('success', 'registeration completed!');
                     redirect('users/login');
                 } catch (Throwable $th) {
@@ -49,6 +53,34 @@ class Users extends Controller
 
     public function login()
     {
+        $data = [
+            'email' => '',
+            'password' => '',
+            'email_error' => '',
+            'password_error' => '',
+        ];
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+            foreach ($_POST as $key => $value) {
+                $_POST[$key] = htmlspecialchars($value, ENT_QUOTES, 'utf-8');
+            }
+            if ($this->validator->loginDataIsValid($_POST)) {
+                if ($this->model->login($_POST)) {
+                    flash('login_success', 'Welcome back!');
+                    redirect('users/index');
+                } else {
+                    flash('login_failed', 'Invalid credentials please try again');
+                    $this->view('users.login');
+                }
+
+            } else {
+                $this->view('users.login', array_merge($data, $this->validator->loginValidation($_POST)));
+            }
+
+
+
+        }
         $this->view("users.login");
     }
 }

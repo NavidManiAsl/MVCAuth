@@ -3,9 +3,10 @@ require_once(APP_ROOT . "/views/partials/header.php");
 ?>
 <div class="register_window">
     <?php flash('success');?>    
+    <?php flash('login_failed');?>    
     <h2 class="register_header">Login to your account</h2>
     <div >
-        <form action="<?php echo URI ?>/users/register" method="post" class="register_form">
+        <form action="<?php echo URI ?>/users/login" method="post" class="register_form">
             <input type="email" placeholder="Email" name="email" class="<?php echo !empty($data['email_error']) ? "register_input_err" : "register_input" ?>">
             <span class="<?php echo !empty($data['email_error']) ? "register_span_err" : "register_span" ?>">
                 <?php echo !empty($data['email_error']) ? $data['email_error'] : "" ?>

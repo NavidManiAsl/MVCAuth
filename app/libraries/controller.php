@@ -3,17 +3,13 @@
 class Controller
 {
 
-    protected function model($model)
+    protected function model($model , $dependencies )
     {
         if (file_exists(APP_ROOT.'/models/' . ucfirst($model) . '.php')) {
            
             require_once(APP_ROOT . '/models/' . ucfirst($model) . '.php');
-            //TODO make this part dynamic ASAP
-            if ($model === 'user') {
-                return new User( new Database );
-            } else {
-                return new $model;
-            }
+         
+                return new $model($dependencies);
             
         }else{ }
     }

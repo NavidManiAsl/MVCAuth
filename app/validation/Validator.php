@@ -5,7 +5,7 @@ namespace app\validation;
 use Controller;
 
 /**
- * TODO: refactor using dependency injection 
+ * TODO: refactor the anti dry class
  */
 
 class Validator extends Controller
@@ -90,6 +90,67 @@ class Validator extends Controller
     public function validatedFormData($data)
     {
         if ($this->registerDataIsValid($data)) {
+           return $data;
+        }
+    }
+
+        /**
+     * validate user input in the login form.
+     * @param array $data
+     * @return array
+     */
+    public function loginValidation($data)
+    {
+        $validatedData = [];
+
+        $data['email'] = trim($data['email']);
+        if (
+            empty($data['email'])
+            || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)
+        ) {
+            $validatedData['email_error'] = 'Please enter a valid email';
+        }elseif (!$this->model->findByEmail($data['email'])) {
+            $validatedData['email_error'] = 'The email is not registered in our database';
+        } else {
+            $validatedData['email'] = $data['email'];
+        }
+
+        if (
+            empty($data['password'])
+            || strlen($data['password']) < 6
+        ) {
+            $validatedData['password_error'] = 'password must be at least 6 characters long';
+        } else {
+            $validatedData['password'] = $data['password'];
+        }
+
+        return $validatedData;
+    }
+
+      /**
+     * cheks if the form data is valid
+     * @return bool|array
+     */
+    public function loginDataIsValid($data)
+    {
+
+        $validatedData = $this->loginValidation($data);
+        return (
+            
+            empty($validatedData['email_error'])
+            && empty($validatedData['password_error'])
+        )
+            ? $validatedData
+            : false;
+    }
+
+        /**
+     * return the validated form data.
+     * @return null|array
+     */
+    public function validatedLoginFormData($data)
+    {
+        if ($this->loginDataIsValid($data)) {
            return $data;
         }
     }

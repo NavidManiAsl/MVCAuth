@@ -3,9 +3,18 @@ use app\validation\Validator;
 
 class Users extends Controller
 {
-    public function register()
+   
+    private $model;
+    private $validator;
+   public function __construct()
+   {
+    $this->model = $this->model('user', new Database());
+    $this->validator = new Validator($this->model);
+   }
+    
+   public function register()
     {
-
+        
         $data = [
             "username" => "",
             "email" => "",
@@ -22,10 +31,11 @@ class Users extends Controller
                 $_POST[$key] = htmlspecialchars($value, ENT_QUOTES, 'utf-8');
             }
 
-            if (Validator::registerDataIsValid($_POST)) {
-                $this->view('users.login');
+            if ($this->validator->registerDataIsValid($_POST)) {
+                $this->model->create($_POST);
+                redirect('users/login');
             } else {
-                $this->view('users.register', array_merge($data, Validator::registerValidation($_POST)));
+                $this->view('users.register', array_merge($data, $this->validator->registerValidation($_POST)));
             }
         } else {
             $this->view("users.register", $data);

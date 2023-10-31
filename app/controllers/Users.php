@@ -34,6 +34,8 @@ class Users extends Controller
             if ($this->validator->registerDataIsValid($_POST)) {
                 try {
                     $this->model->create($_POST);
+                    echo 'hello';
+                    flash('success', 'registeration completed!');
                     redirect('users/login');
                 } catch (Throwable $th) {
                 }

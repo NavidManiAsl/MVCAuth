@@ -48,7 +48,7 @@ class User
     /**
      * Authenticate a user with given credentials
      * @param array $formData
-     * @return bool
+     * @return User|false
      */
     public function login($formData)
     {
@@ -59,7 +59,7 @@ class User
             $row = $this->db->result();
             
             if ($row && password_verify($formData['password'], $row->password)) {
-                return true;
+                return $row;
             } else {
                 return false;
             }

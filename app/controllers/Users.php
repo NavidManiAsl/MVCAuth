@@ -66,8 +66,10 @@ class Users extends Controller
                 $_POST[$key] = htmlspecialchars($value, ENT_QUOTES, 'utf-8');
             }
             if ($this->validator->loginDataIsValid($_POST)) {
-                if ($this->model->login($_POST)) {
+                $row = $this->model->login($_POST);
+                if ($row) {
                     flash('login_success', 'Welcome back!');
+                    sessionUserAdd($row);
                     redirect('users/index');
                 } else {
                     flash('login_failed', 'Invalid credentials please try again');

@@ -1,5 +1,5 @@
 <?php
-//session_start();
+session_start();
 
 /** 
  * Rediret to a certain page
@@ -31,5 +31,18 @@ function flash($name, $message = null)
         echo ('<div id="flash-msg">' . $_SESSION[$name] . '</div>');
         unset($_SESSION[$name]);
     }
+}
+
+/**
+ * Add user info to the session after auth.
+ * @param User
+ * @return void
+ */
+
+function sessionUserAdd($user) 
+{
+    $_SESSION['username'] = $user->username;
+    $_SESSION['email'] = $user->email;
+    
 }
 

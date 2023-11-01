@@ -1,5 +1,5 @@
 <?php
-session_start();
+//session_start();
 
 /** 
  * Rediret to a certain page
@@ -33,37 +33,3 @@ function flash($name, $message = null)
     }
 }
 
-/**
- * Save a key value pair in session.
- * @param string $name
- * @param string $value
- * @return void
- */
-function setSession($name, $value) 
-{
-    try {
-        $_SESSION[$name] = $value;
-    } catch (\Throwable $th) {
-        
-    }
-}
-
-/**
- * Return a value from the session if its exist.
- * @param string $name
- * @return string|null
- */
-function getSession($name) 
-{
-    return isset($_SESSION[$name]) ? $_SESSION[$name] : null;
-}
-
-/**
- * Clear a key value pair from the session
- * @param string $name
- * @return void
- */
-function clearSession($name)
-{
-    unset($_SESSION[$name]);
-}

@@ -14,10 +14,11 @@ class Users extends Controller
 
     public function index()
     {
-        if ($this->model->authenticated) {
+       
+        if ($this->isAuthenticated()) {
             $this->view('users.index');
-        }
-        $this->view('users.login');
+        }else{
+        $this->view('users.login');}
     }
 
     public function register()
@@ -43,7 +44,7 @@ class Users extends Controller
                 try {
                     $this->model->create($_POST);
                     flash('success', 'registeration completed!');
-                    redirect('users/login');
+                    redirect('users.login');
                 } catch (Throwable $th) {
                 }
             } else {
@@ -73,7 +74,7 @@ class Users extends Controller
                 if ($user) {
                     session_regenerate_id(true);
                     flash('login_success', 'Welcome back!');
-                    redirect('users/index');
+                    redirect('users.index');
                 } else {
                     flash('login_failed', 'Invalid credentials please try again');
                     $this->view('users.login');
@@ -89,8 +90,16 @@ class Users extends Controller
         $this->view("users.login");
     }
 
+    public function logout()
+    {
+        if($this->isAuthenticated()) {
+            $this->model->logout();
+            redirect('users.login');
+        }
+    }
+
     public function isAuthenticated()
     {
-        return $this->model->authenticated();
+        return isset($_SESSION['user_id']);
     }
 }

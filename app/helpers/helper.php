@@ -8,6 +8,7 @@
  */
 function redirect($page)
 {
+    $page=str_replace('.','/', $page);
     header('location:' . URI . $page);
 }
 

@@ -3,6 +3,7 @@
 class User
 {
     private $db;
+    public $authenticated = false;
     public function __construct(Database $db)
     {
         $this->db = $db;
@@ -56,15 +57,30 @@ class User
         try {
             $this->db->query($query);
             $this->db->bind(':email', $formData['email']);
-            $row = $this->db->result();
+            $user = $this->db->result();
             
-            if ($row && password_verify($formData['password'], $row->password)) {
-                return $row;
+            if ($user && password_verify($formData['password'], $user->password)) {
+                $this->authenticated = true;
+                sessionUserAdd($user);
+
+                return $user;
             } else {
                 return false;
             }
         } catch (\Throwable $th) {
            
         }
+    }
+
+    /**
+     * Log out user and end the session.
+     * @return void
+     */
+    public function logout()
+    {
+       /**  unset($_SESSION);
+        * if (ini_get('session.use_cookies')) { The absolute logout and remove the session and cookies
+            
+            */
     }
 }

@@ -18,5 +18,6 @@ define("DB_USER", $dotenv["DB_USER"]);
 define("DB_PASSWORD", $dotenv["DB_PASSWORD"]);
 define("DB_HOST", $dotenv["DB_HOST"]);
 define("DB_NAME", $dotenv["DB_NAME"]);
+define("SESSION_LIFE_SPAN",1800);
 
 

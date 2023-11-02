@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 
 /** 
  * Rediret to a certain page

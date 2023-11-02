@@ -41,6 +41,7 @@ function flash($name, $message = null)
 
 function sessionUserAdd($user) 
 {
+    $_SESSION['user_id'] = $user->id; 
     $_SESSION['username'] = $user->username;
     $_SESSION['email'] = $user->email;
     

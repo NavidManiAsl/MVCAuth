@@ -14,7 +14,10 @@ class Users extends Controller
 
     public function index()
     {
-        $this->view('users.index');
+        if ($this->model->authenticated) {
+            $this->view('users.index');
+        }
+        $this->view('users.login');
     }
 
     public function register()
@@ -66,10 +69,10 @@ class Users extends Controller
                 $_POST[$key] = htmlspecialchars($value, ENT_QUOTES, 'utf-8');
             }
             if ($this->validator->loginDataIsValid($_POST)) {
-                $row = $this->model->login($_POST);
-                if ($row) {
+                $user = $this->model->login($_POST);
+                if ($user) {
+                    session_regenerate_id(true);
                     flash('login_success', 'Welcome back!');
-                    sessionUserAdd($row);
                     redirect('users/index');
                 } else {
                     flash('login_failed', 'Invalid credentials please try again');
@@ -84,5 +87,10 @@ class Users extends Controller
 
         }
         $this->view("users.login");
+    }
+
+    public function isAuthenticated()
+    {
+        return $this->model->authenticated();
     }
 }

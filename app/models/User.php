@@ -3,7 +3,7 @@
 class User
 {
     private $db;
-    public $authenticated = false;
+
     public function __construct(Database $db)
     {
         $this->db = $db;
@@ -58,9 +58,9 @@ class User
             $this->db->query($query);
             $this->db->bind(':email', $formData['email']);
             $user = $this->db->result();
-            
+
             if ($user && password_verify($formData['password'], $user->password)) {
-                $this->authenticated = true;
+
                 sessionUserAdd($user);
 
                 return $user;
@@ -68,7 +68,7 @@ class User
                 return false;
             }
         } catch (\Throwable $th) {
-           
+
         }
     }
 
@@ -78,9 +78,13 @@ class User
      */
     public function logout()
     {
-       /**  unset($_SESSION);
-        * if (ini_get('session.use_cookies')) { The absolute logout and remove the session and cookies
-            
-            */
+        unset($_SESSION);
+        
+        if (ini_get('session.use_cookies')) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 4200, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
+        }
+        
+        session_destroy();
     }
 }

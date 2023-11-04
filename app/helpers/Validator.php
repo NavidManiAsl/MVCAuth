@@ -1,8 +1,7 @@
 <?php
-namespace app\validation;
 
 
-use Controller;
+
 
 
 
@@ -66,7 +65,6 @@ class Validator extends Controller
                     }
             }
         }
-        var_dump($validatedData);
         return $validatedData;
     }
 

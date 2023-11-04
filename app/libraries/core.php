@@ -32,7 +32,6 @@ class Core
         ], $this->params);
 
        
-        //var_dump($this->currentController);
             }
 
     public function getUrl()

@@ -1,13 +1,9 @@
 <?php
 
-
-
-
-
-
 class Validator extends Controller
 {
     private $model;
+    private $errorLogged = false;
     public function __construct($model)
     {
         $this->model = $model;
@@ -29,7 +25,12 @@ class Validator extends Controller
                         empty($value)
                         || strlen($value) < 3
                     ) {
-                        $validatedData['username_error'] = 'username must be at least 3 characters long';
+                        $error = ['username_error' => 'username must be at least 3 characters long'];
+                        $validatedData = array_merge($error, $validatedData);
+                        if (!$this->errorLogged) {
+                            Logger::log($error, 'error');
+                        }
+
                     } else {
                         $validatedData[$key] = $value;
                     }
@@ -40,9 +41,17 @@ class Validator extends Controller
                         empty($value)
                         || !filter_var($value, FILTER_VALIDATE_EMAIL)
                     ) {
-                        $validatedData['email_error'] = 'Please enter a valid email';
+                        $error = ['email_error' => 'Please enter a valid email'];
+                        $validatedData = array_merge($error, $validatedData);
+                        if (!$this->errorLogged) {
+                            Logger::log($error, 'error');
+                        }
                     } elseif (count($data) > 2 && $this->model->findByEmail($value)) {
-                        $validatedData['email_error'] = 'The email is already taken';
+                        $error = ['email_error' => 'The email is already taken'];
+                        $validatedData = array_merge($error, $validatedData);
+                        if (!$this->errorLogged) {
+                            Logger::log($error, 'error');
+                        }
                     } else {
                         $validatedData[$key] = $value;
                     }
@@ -52,19 +61,27 @@ class Validator extends Controller
                         empty($value)
                         || strlen($value) < 6
                     ) {
-                        $validatedData['password_error'] = 'password must be at least 6 characters long';
+                        $error = ['password_error' => 'password must be at least 6 characters long'];
+                        $validatedData = array_merge($error, $validatedData);
+                        if (!$this->errorLogged) {
+                            Logger::log($error, 'error');
+                        }
                     } else {
                         $validatedData[$key] = $value;
                     }
                     break;
                 case ('password_confirmation'):
                     if ($data['password'] !== $value || empty($data['password'])) {
-                        $validatedData['password_confirmation_error'] = 'Passwords do not match';
+                        $error = ['password_confirmation_error' => 'Passwords do not match'];
+                        if (!$this->errorLogged) {
+                            Logger::log($error, 'error');
+                        }
                     } else {
                         $validatedData[$key] = $value;
                     }
             }
         }
+        $this->errorLogged = true;
         return $validatedData;
     }
 

@@ -4,9 +4,7 @@ namespace app\validation;
 
 use Controller;
 
-/**
- * TODO: refactor the anti dry class
- */
+
 
 class Validator extends Controller
 {
@@ -15,51 +13,60 @@ class Validator extends Controller
     {
         $this->model = $model;
     }
+
     /**
-     * validate user input in the register form.
+     * validate user inputs in register and login form.
      * @param array $data
      * @return array
      */
-     public function registerValidation($data)
+    public function validate($data)
     {
         $validatedData = [];
-        $data['username'] = trim($data['username']);
-        if (
-            empty($data['username'])
-            || strlen($data['username']) < 3
-        ) {
-            $validatedData['username_error'] = 'username must be at least 3 characters long';
-        } else {
-            $validatedData['username'] = $data['username'];
+        foreach ($data as $key => $value) {
+            switch ($key) {
+                case ('username'):
+                    $value = trim($value);
+                    if (
+                        empty($value)
+                        || strlen($value) < 3
+                    ) {
+                        $validatedData['username_error'] = 'username must be at least 3 characters long';
+                    } else {
+                        $validatedData[$key] = $value;
+                    }
+                    break;
+                case ( 'email'):
+                    $value = trim($value);
+                    if (
+                        empty($value)
+                        || !filter_var($value, FILTER_VALIDATE_EMAIL)
+                    ) {
+                        $validatedData['email_error'] = 'Please enter a valid email';
+                    } elseif ($this->model->findByEmail($value)) {
+                        $validatedData['email_error'] = 'The email is already taken';
+                    } else {
+                        $validatedData[$key] = $value;
+                    }
+                    break;
+                case ('password'):
+                    if (
+                        empty($value)
+                        || strlen($value) < 6
+                    ) {
+                        $validatedData['password_error'] = 'password must be at least 6 characters long';
+                    } else {
+                        $validatedData[$key] = $value;
+                    }
+                    break;
+                case ('password_confirmation'):
+                    if ($data['password'] !== $value || empty($data['password'])) {
+                        $validatedData['password_confirmation_error'] = 'Passwords do not match';
+                    } else {
+                        $validatedData[$key] = $value;
+                    }
+            }
         }
-
-        $data['email'] = trim($data['email']);
-        if (
-            empty($data['email'])
-            || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)
-        ) {
-            $validatedData['email_error'] = 'Please enter a valid email';
-        }elseif ($this->model->findByEmail($data['email'])) {
-            $validatedData['email_error'] = 'The email is already taken';
-        } else {
-            $validatedData['email'] = $data['email'];
-        }
-
-        if (
-            empty($data['password'])
-            || strlen($data['password']) < 6
-        ) {
-            $validatedData['password_error'] = 'password must be at least 6 characters long';
-        } else {
-            $validatedData['password'] = $data['password'];
-        }
-
-        if ($data['password'] !== $data['password_confirmation'] || empty($data['password'])) {
-            $validatedData['password_confirmation_error'] = 'Passwords do not match';
-        } else {
-            $validatedData['password_confirmation'] = $data['password_confirmation'];
-        }
-
+       var_dump($validatedData);
         return $validatedData;
     }
 
@@ -70,7 +77,7 @@ class Validator extends Controller
     public function registerDataIsValid($data)
     {
 
-        $validatedData = $this->registerValidation($data);
+        $validatedData = $this->validate($data);
         return (
             empty($validatedData['username_error'])
             && empty($validatedData['email_error'])
@@ -90,53 +97,21 @@ class Validator extends Controller
     public function validatedFormData($data)
     {
         if ($this->registerDataIsValid($data)) {
-           return $data;
+            return $data;
         }
     }
 
-        /**
-     * validate user input in the login form.
-     * @param array $data
-     * @return array
-     */
-    public function loginValidation($data)
-    {
-        $validatedData = [];
 
-        $data['email'] = trim($data['email']);
-        if (
-            empty($data['email'])
-            || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)
-        ) {
-            $validatedData['email_error'] = 'Please enter a valid email';
-        }elseif (!$this->model->findByEmail($data['email'])) {
-            $validatedData['email_error'] = 'The email is not registered in our database';
-        } else {
-            $validatedData['email'] = $data['email'];
-        }
-
-        if (
-            empty($data['password'])
-            || strlen($data['password']) < 6
-        ) {
-            $validatedData['password_error'] = 'password must be at least 6 characters long';
-        } else {
-            $validatedData['password'] = $data['password'];
-        }
-
-        return $validatedData;
-    }
-
-      /**
+    /**
      * cheks if the form data is valid
      * @return bool|array
      */
     public function loginDataIsValid($data)
     {
 
-        $validatedData = $this->loginValidation($data);
+        $validatedData = $this->validate($data);
         return (
-            
+
             empty($validatedData['email_error'])
             && empty($validatedData['password_error'])
         )
@@ -144,14 +119,14 @@ class Validator extends Controller
             : false;
     }
 
-        /**
+    /**
      * return the validated form data.
      * @return null|array
      */
     public function validatedLoginFormData($data)
     {
         if ($this->loginDataIsValid($data)) {
-           return $data;
+            return $data;
         }
     }
 }

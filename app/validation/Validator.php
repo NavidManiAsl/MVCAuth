@@ -35,14 +35,14 @@ class Validator extends Controller
                         $validatedData[$key] = $value;
                     }
                     break;
-                case ( 'email'):
+                case ('email'):
                     $value = trim($value);
                     if (
                         empty($value)
                         || !filter_var($value, FILTER_VALIDATE_EMAIL)
                     ) {
                         $validatedData['email_error'] = 'Please enter a valid email';
-                    } elseif ($this->model->findByEmail($value)) {
+                    } elseif (count($data) > 2 && $this->model->findByEmail($value)) {
                         $validatedData['email_error'] = 'The email is already taken';
                     } else {
                         $validatedData[$key] = $value;
@@ -66,28 +66,31 @@ class Validator extends Controller
                     }
             }
         }
-       var_dump($validatedData);
+        var_dump($validatedData);
         return $validatedData;
     }
 
+
     /**
      * cheks if the form data is valid
-     * @return bool|array
+     * @return bool
      */
-    public function registerDataIsValid($data)
+
+    public function isDataValid($data)
     {
-
         $validatedData = $this->validate($data);
-        return (
-            empty($validatedData['username_error'])
-            && empty($validatedData['email_error'])
-            && empty($validatedData['password_error'])
-            && empty($validatedData['password_confirmation_error'])
-        )
-            ? $validatedData
-            : false;
+        foreach ($validatedData as $key => $value) {
 
+            if (strpos($key, 'error') !== false) {
 
+                if (empty($validatedData[$key])) {
+                    continue;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**
@@ -96,36 +99,7 @@ class Validator extends Controller
      */
     public function validatedFormData($data)
     {
-        if ($this->registerDataIsValid($data)) {
-            return $data;
-        }
-    }
-
-
-    /**
-     * cheks if the form data is valid
-     * @return bool|array
-     */
-    public function loginDataIsValid($data)
-    {
-
-        $validatedData = $this->validate($data);
-        return (
-
-            empty($validatedData['email_error'])
-            && empty($validatedData['password_error'])
-        )
-            ? $validatedData
-            : false;
-    }
-
-    /**
-     * return the validated form data.
-     * @return null|array
-     */
-    public function validatedLoginFormData($data)
-    {
-        if ($this->loginDataIsValid($data)) {
+        if ($this->isDataValid($data)) {
             return $data;
         }
     }

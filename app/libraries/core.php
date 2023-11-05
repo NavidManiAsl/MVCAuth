@@ -24,8 +24,14 @@ class Core
             unset($url[1]);
 
         }
-        $this->params = $url ? array_values($url) : [];
 
+        $requestMethod = $_SERVER['REQUEST_METHOD'];
+        if ($url) {
+            $params = array_values($url);
+            $this->params = array_unshift($params, $requestMethod);
+        } else {
+            $this->params = [$requestMethod];
+        }
 
         call_user_func_array([
             $this->currentController,

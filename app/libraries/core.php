@@ -2,6 +2,9 @@
 
 namespace App\Libraries;
 
+use App\Helpers\ErrorHandler;
+use Exception;
+
 class Core
 {
     protected $currentController = 'users';
@@ -11,18 +14,30 @@ class Core
     public function __construct()
     {
         $url = $this->getUrl();
-        if (isset($url) && file_exists(APP_ROOT . '/controllers/' . ucwords($url[0]) . '.php')) {
-            $this->currentController = ucwords($url[0]);
-            unset($url[0]);
+        try {
+            if (isset($url) && file_exists(APP_ROOT . '/controllers/' . ucwords($url[0]) . '.php')) {
+
+                require_once(APP_ROOT . '/controllers/' . $this->currentController . '.php');
+                $this->currentController = new('App\\Controllers\\' . $this->currentController);
+                unset($url[0]);
+            } else {
+                throw new Exception('Controller not found');
+            }
+        } catch (\Throwable $th) {
+            ErrorHandler::notFound($th);
         }
-        require_once(APP_ROOT . '/controllers/' . $this->currentController . '.php');
-        $this->currentController = new('App\\Controllers\\' . $this->currentController);
 
-        if (isset($url[1]) && method_exists($this->currentController, $url[1])) {
+        try {
+            if (isset($url[1]) && method_exists($this->currentController, $url[1])) {
 
-            $this->currentMethod = $url[1];
-            unset($url[1]);
+                $this->currentMethod = $url[1];
+                unset($url[1]);
 
+            } else {
+                throw new Exception('Method not found');
+            }
+        } catch (\Throwable $th) {
+            ErrorHandler::notFound($th);
         }
 
         $requestMethod = $_SERVER['REQUEST_METHOD'];
@@ -32,7 +47,6 @@ class Core
         } else {
             $this->params = [$requestMethod];
         }
-
         call_user_func_array([
             $this->currentController,
             $this->currentMethod
@@ -43,6 +57,7 @@ class Core
      * Collects the data sent in the url.
      * @return array|void
      */
+
 
     public function getUrl()
     {

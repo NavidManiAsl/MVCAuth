@@ -43,7 +43,8 @@ class Core
         $requestMethod = $_SERVER['REQUEST_METHOD'];
         if ($url) {
             $params = array_values($url);
-            $this->params = array_unshift($params, $requestMethod);
+            array_unshift($params, $requestMethod);
+            $this->params = $params;
         } else {
             $this->params = [$requestMethod];
         }

@@ -1,7 +1,8 @@
 <?php
 namespace App\Controllers;
-use App\Libraries\{Controller,Database};
-use App\Helpers\{Validator,Logger};
+
+use App\Libraries\{Controller, Database};
+use App\Helpers\{Validator, Logger};
 
 class Users extends Controller
 {
@@ -24,7 +25,7 @@ class Users extends Controller
         }
     }
 
-    public function register()
+    public function register($method, $params = null)
     {
 
         $data = [
@@ -37,7 +38,7 @@ class Users extends Controller
             "password_error" => "",
             "password_confirmation_error" => "",
         ];
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($method === "POST") {
 
             foreach ($_POST as $key => $value) {
                 $_POST[$key] = htmlspecialchars($value, ENT_QUOTES, 'utf-8');
@@ -67,7 +68,7 @@ class Users extends Controller
         }
     }
 
-    public function login()
+    public function login($method, $params = null)
     {
         $data = [
             'email' => '',
@@ -76,7 +77,7 @@ class Users extends Controller
             'password_error' => '',
         ];
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($method === 'POST') {
 
             foreach ($_POST as $key => $value) {
                 $_POST[$key] = htmlspecialchars($value, ENT_QUOTES, 'utf-8');

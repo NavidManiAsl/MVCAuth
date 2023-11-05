@@ -1,11 +1,11 @@
 <?php
-
+namespace App\Helpers;
 class ErrorHandler
 {
 
     /**
      * Handle and extracts the data of an error object and logs it.
-     * @param Throwable $throwable
+     * @param \Throwable $throwable
      * @param int $code
      * @param string $message
      * @return array

@@ -1,5 +1,7 @@
 <?php
-
+namespace App\Controllers;
+use App\Libraries\{Controller,Database};
+use App\Helpers\{Validator,Logger};
 
 class Users extends Controller
 {

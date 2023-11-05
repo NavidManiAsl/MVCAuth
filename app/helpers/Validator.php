@@ -1,5 +1,6 @@
 <?php
-
+namespace App\Helpers;
+use App\libraries\Controller;
 class Validator extends Controller
 {
     private $model;

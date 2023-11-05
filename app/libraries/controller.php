@@ -1,15 +1,17 @@
 <?php
-
+namespace App\Libraries;
 class Controller
 {
 
-    protected function model($model , $dependencies )
+    protected function model($model , $dependencies = null)
     {
+        $model = ucfirst($model);
         if (file_exists(APP_ROOT.'/models/' . ucfirst($model) . '.php')) {
            
             require_once(APP_ROOT . '/models/' . ucfirst($model) . '.php');
-         
-                return new $model($dependencies);
+                
+                $class = 'App\\Models\\' . $model;
+                return new $class($dependencies);
             
         }else{ }
     }

@@ -1,5 +1,6 @@
 <?php
-
+namespace App\Models;
+use App\Libraries\{ Database};
 class User
 {
     private $db;
@@ -79,12 +80,12 @@ class User
     public function logout()
     {
         unset($_SESSION);
-        
+
         if (ini_get('session.use_cookies')) {
             $params = session_get_cookie_params();
             setcookie(session_name(), '', time() - 4200, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
         }
-        
+
         session_destroy();
     }
 }

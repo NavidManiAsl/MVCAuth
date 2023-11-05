@@ -1,6 +1,6 @@
 <?php
 
-
+namespace App\Libraries;
 class Core
 {
     protected $currentController = 'Pages';
@@ -15,7 +15,7 @@ class Core
             unset($url[0]);
         }
         require_once( APP_ROOT.'/controllers/' . $this->currentController . '.php');
-        $this->currentController = new $this->currentController;
+        $this->currentController = new ('App\\Controllers\\'.$this->currentController);
 
         if (isset($url[1]) && method_exists($this->currentController, $url[1])) {
 

@@ -8,7 +8,7 @@ class ErrorHandler
      * @param \Throwable $throwable
      * @param int $code
      * @param string $message
-     * @return array
+     * @return void
      */
     public static function handleError(\Throwable $throwable, $code = null, $message = null)
     {
@@ -21,12 +21,20 @@ class ErrorHandler
         $th = [$date, $description, $file, $line, $trace];
         Logger::log($th, "error");
 
-        return [
-            'code' => $code ? $code : 500,
-            'message' => $message ? $message : 'Something went wrong, please try again later.'
-        ];
+      
 
     }
 
+    public static function notFound (\Throwable $throwable) {
+        self::handleError($throwable,404);
+        require_once('../app/views/errors/404.php');
+        die();
+    }
 
+    public static function serverError(\Throwable $throwable) {
+        self::handleError($throwable,500);
+        require_once('../app/views/errors/500.php');
+        die();
+
+}
 }

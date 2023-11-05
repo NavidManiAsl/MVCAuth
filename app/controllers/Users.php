@@ -1,5 +1,5 @@
 <?php
-use app\validation\Validator;
+
 
 class Users extends Controller
 {
@@ -14,11 +14,12 @@ class Users extends Controller
 
     public function index()
     {
-       
+
         if ($this->isAuthenticated()) {
             $this->view('users.index');
-        }else{
-        $this->view('users.login');}
+        } else {
+            $this->view('users.login');
+        }
     }
 
     public function register()
@@ -40,15 +41,24 @@ class Users extends Controller
                 $_POST[$key] = htmlspecialchars($value, ENT_QUOTES, 'utf-8');
             }
 
-            if ($this->validator->registerDataIsValid($_POST)) {
+            if ($this->validator->isDataValid($_POST)) {
                 try {
-                    $this->model->create($_POST);
-                    flash('success', 'registeration completed!');
-                    redirect('users.login');
-                } catch (Throwable $th) {
+                    if ($this->model->create($_POST)) {
+                        Logger::log(
+                            [
+                                'action' => 'register',
+                                'username' => $_POST['username'],
+                                'email' => $_POST['email'],
+                            ],
+                            'access'
+                        );
+                        flash('success', 'registeration completed!');
+                        redirect('users.login');
+                    }
+                } catch (\Throwable $th) {
                 }
             } else {
-                $this->view('users.register', array_merge($data, $this->validator->registerValidation($_POST)));
+                $this->view('users.register', array_merge($data, $this->validator->validate($_POST)));
             }
         } else {
             $this->view("users.register", $data);
@@ -69,10 +79,18 @@ class Users extends Controller
             foreach ($_POST as $key => $value) {
                 $_POST[$key] = htmlspecialchars($value, ENT_QUOTES, 'utf-8');
             }
-            if ($this->validator->loginDataIsValid($_POST)) {
+            if ($this->validator->isDataValid($_POST)) {
                 $user = $this->model->login($_POST);
                 if ($user) {
                     session_regenerate_id(true);
+                    Logger::log(
+                        [
+                            'action' => 'Login',
+                            'id' => $_SESSION['user_id'],
+                            'email' => $_SESSION['email'],
+                        ],
+                        'access'
+                    );
                     flash('login_success', 'Welcome back!');
                     redirect('users.index');
                 } else {
@@ -81,7 +99,7 @@ class Users extends Controller
                 }
 
             } else {
-                $this->view('users.login', array_merge($data, $this->validator->loginValidation($_POST)));
+                $this->view('users.login', array_merge($data, $this->validator->validate($_POST)));
             }
 
 
@@ -92,7 +110,15 @@ class Users extends Controller
 
     public function logout()
     {
-        if($this->isAuthenticated()) {
+        if ($this->isAuthenticated()) {
+            Logger::log(
+                [
+                    'action' => 'Logout',
+                    'id' => $_SESSION['user_id'],
+                    'email' => $_SESSION['email'],
+                ],
+                'access'
+            );
             $this->model->logout();
             redirect('users.login');
         }

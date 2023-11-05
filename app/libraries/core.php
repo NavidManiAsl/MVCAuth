@@ -1,21 +1,22 @@
 <?php
 
 namespace App\Libraries;
+
 class Core
 {
-    protected $currentController = 'Pages';
+    protected $currentController = 'users';
     protected $currentMethod = 'index';
     protected $params = [];
 
     public function __construct()
     {
         $url = $this->getUrl();
-        if (isset($url) && file_exists( APP_ROOT.'/controllers/' . ucwords($url[0]) . '.php')) {
+        if (isset($url) && file_exists(APP_ROOT . '/controllers/' . ucwords($url[0]) . '.php')) {
             $this->currentController = ucwords($url[0]);
             unset($url[0]);
         }
-        require_once( APP_ROOT.'/controllers/' . $this->currentController . '.php');
-        $this->currentController = new ('App\\Controllers\\'.$this->currentController);
+        require_once(APP_ROOT . '/controllers/' . $this->currentController . '.php');
+        $this->currentController = new('App\\Controllers\\' . $this->currentController);
 
         if (isset($url[1]) && method_exists($this->currentController, $url[1])) {
 
@@ -30,9 +31,12 @@ class Core
             $this->currentController,
             $this->currentMethod
         ], $this->params);
+    }
 
-       
-            }
+    /**
+     * Collects the data sent in the url.
+     * @return array|void
+     */
 
     public function getUrl()
     {

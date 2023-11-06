@@ -1,4 +1,8 @@
 <?php
+namespace App\Libraries;
+
+use App\Helpers\ErrorHandler;
+use PDO;
 
 class Database
 {
@@ -20,11 +24,8 @@ class Database
 
         try {
             $this->dbh = new PDO($dsn, $this->User, $this->Password, $options);
-
-
-        } catch (PDOException $e) {
-            $this->error = $e->getMessage();
-            echo $this->error;
+        } catch (\PDOException $e) {
+            ErrorHandler::serverError($e);
         }
     }
 
@@ -62,12 +63,16 @@ class Database
 
 
     /**
-     * Execute a statement
+     * Execute a prepared SQL statement.
      * @return bool
      */
     public function execute()
     {
-        return $this->stmt->execute();
+        try {
+            return $this->stmt->execute();
+        } catch (\PDOException $e) {
+            ErrorHandler::serverError($e);
+        }
     }
 
     /**
@@ -77,7 +82,11 @@ class Database
     public function resultSet()
     {
         $this->execute();
-        return $this->stmt->fetchAll(PDO::FETCH_OBJ);
+        try {
+            return $this->stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (\PDOException $e) {
+            ErrorHandler::serverError($e);
+        }
     }
 
     /**
@@ -87,7 +96,11 @@ class Database
     public function result()
     {
         $this->execute();
-        return $this->stmt->fetch(PDO::FETCH_OBJ);
+        try {
+            return $this->stmt->fetch(PDO::FETCH_OBJ);
+        } catch (\PDOException $e) {
+            ErrorHandler::serverError($e);
+        }
     }
 
     /**
@@ -96,7 +109,11 @@ class Database
      */
     public function rowCount()
     {
-        return $this->stmt->rowCount();
+        try {
+            return $this->stmt->rowCount();
+        } catch (\PDOException $e) {
+            ErrorHandler::serverError($e);
+        }
     }
 
 

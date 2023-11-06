@@ -64,7 +64,7 @@ class Database
 
     /**
      * Execute a prepared SQL statement.
-     * @return bool
+     * @return bool|void
      */
     public function execute()
     {
@@ -77,7 +77,7 @@ class Database
 
     /**
      * Executes the prepared statement and returns all rows as an array of objects.
-     * @return array
+     * @return array|void
      */
     public function resultSet()
     {
@@ -105,7 +105,7 @@ class Database
 
     /**
      * Get the number of the affected rows after am execution.
-     * @return int
+     * @return int|void
      */
     public function rowCount()
     {

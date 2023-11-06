@@ -1,5 +1,6 @@
 <?php
 namespace App\Helpers;
+
 class Logger
 {
 
@@ -13,6 +14,10 @@ class Logger
     {
         $log = array_merge(array('timestamp' => date('Y-m-d H:i:s', time())), $message);
         $jsonLog = json_encode($log);
-        file_put_contents(LOGS . $logFile, $jsonLog . PHP_EOL, FILE_APPEND);
+        try {
+            file_put_contents(LOGS . $logFile, $jsonLog . PHP_EOL, FILE_APPEND);
+        } catch (\Exception $e) {
+            ErrorHandler::handleError($e);
+        }
     }
 }

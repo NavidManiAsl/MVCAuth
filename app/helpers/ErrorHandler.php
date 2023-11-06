@@ -1,8 +1,8 @@
 <?php
 namespace App\Helpers;
+
 class ErrorHandler
 {
-
     /**
      * Handle and extracts the data of an error object and logs it.
      * @param \Throwable $throwable
@@ -20,21 +20,30 @@ class ErrorHandler
 
         $th = [$date, $description, $file, $line, $trace];
         Logger::log($th, "error");
-
-      
-
     }
 
-    public static function notFound (\Throwable $throwable) {
-        self::handleError($throwable,404);
+    /**
+     * Handle and Logs "Not Found 404" error.
+     * @param \Throwable $throwable
+     * @return void
+     */
+    public static function notFound($throwable)
+    {
+        self::handleError($throwable, 404);
         require_once('../app/views/errors/404.php');
         die();
     }
 
-    public static function serverError(\Throwable $throwable) {
-        self::handleError($throwable,500);
+    /**
+     * Handle and Logs "Server 500" error.
+     * @param \Throwable $throwable
+     * @return void
+     */
+    public static function serverError(\Throwable $throwable)
+    {
+        self::handleError($throwable, 500);
         require_once('../app/views/errors/500.php');
         die();
 
-}
+    }
 }

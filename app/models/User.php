@@ -33,7 +33,6 @@ class User
      */
     public function create($formData)
     {
-        try {
             $query = ' INSERT INTO  users(username,email,password) VALUES (:username, :email, :password)';
             $this->db->query($query);
             $this->db->bind(':username', $formData['username']);
@@ -41,10 +40,6 @@ class User
             $this->db->bind(':password', password_hash($formData['password'], PASSWORD_DEFAULT));
 
             return $this->db->execute();
-        } catch (\Throwable $th) {
-            echo $th->getMessage();
-            return false;
-        }
     }
 
     /**
@@ -55,22 +50,17 @@ class User
     public function login($formData)
     {
         $query = 'SELECT * FROM users WHERE email=:email';
-        try {
+       
             $this->db->query($query);
             $this->db->bind(':email', $formData['email']);
             $user = $this->db->result();
 
             if ($user && password_verify($formData['password'], $user->password)) {
-
                 sessionUserAdd($user);
-
                 return $user;
             } else {
                 return false;
             }
-        } catch (\Throwable $th) {
-
-        }
     }
 
     /**

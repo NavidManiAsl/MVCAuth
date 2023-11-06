@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\ErrorHandler;
 
 /** 
  * Rediret to a certain page
@@ -8,8 +9,13 @@
  */
 function redirect($page)
 {
-    $page=str_replace('.','/', $page);
-    header('location:' . URI . $page);
+    $page = str_replace('.', '/', $page);
+
+    try {
+        header('location:' . URI . $page);
+    } catch (Exception $e) {
+        ErrorHandler::handleError($e);
+    }
 }
 
 /**
@@ -36,15 +42,15 @@ function flash($name, $message = null)
 
 /**
  * Add user info to the session after auth.
- * @param User
+ * @param object
  * @return void
  */
 
-function sessionUserAdd($user) 
+function sessionUserAdd($user)
 {
-    $_SESSION['user_id'] = $user->id; 
+    $_SESSION['user_id'] = $user->id;
     $_SESSION['username'] = $user->username;
     $_SESSION['email'] = $user->email;
-    
+
 }
 

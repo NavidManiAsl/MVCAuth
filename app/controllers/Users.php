@@ -45,21 +45,20 @@ class Users extends Controller
             }
 
             if ($this->validator->isDataValid($_POST)) {
-                try {
-                    if ($this->model->create($_POST)) {
-                        Logger::log(
-                            [
-                                'action' => 'register',
-                                'username' => $_POST['username'],
-                                'email' => $_POST['email'],
-                            ],
-                            'access'
-                        );
-                        flash('success', 'registeration completed!');
-                        redirect('users.login');
-                    }
-                } catch (\Throwable $th) {
+
+                if ($this->model->create($_POST)) {
+                    Logger::log(
+                        [
+                            'action' => 'register',
+                            'username' => $_POST['username'],
+                            'email' => $_POST['email'],
+                        ],
+                        'access'
+                    );
+                    flash('success', 'registeration completed!');
+                    redirect('users.login');
                 }
+
             } else {
                 $this->view('users.register', array_merge($data, $this->validator->validate($_POST)));
             }

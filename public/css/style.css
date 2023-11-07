@@ -262,3 +262,42 @@ table {
     margin-bottom: 5px;
     border-radius: 5px;
 }
+
+.error_container{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20%;
+}
+.error_code{
+    font-size: 5rem;
+    color: #e74c3c;
+    font-weight: 900;
+}
+
+.error_message{
+    font-size: xx-large;
+    color: #2c3e50;
+}
+
+.error_link{
+    display: block;
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: #2c3e50;
+    transition: ease-out 0.3s;
+    margin-top: 150px;
+    display: inline-flex;
+    
+}
+
+.error_link:hover {
+   
+    font-size: 1.23rem;
+ }
+
+ .error_arrow{
+    height: 25px;
+    width: auto;
+    margin-left: 5px;
+ }

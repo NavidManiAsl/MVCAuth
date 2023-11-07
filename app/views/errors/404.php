@@ -1,8 +1,16 @@
 <?php
 $errorPage = true;
-require_once(APP_ROOT.'/views/partials/header.php');
+require_once(APP_ROOT . '/views/partials/header.php');
 ?>
-<h1>404</h1>
+<div class="error_container">
+    <h1 class="error_code">404</h1>
+    <p class="error_message">Not found!</p>
+    <a href="<?php echo URI . 'users/index' ?>" class="error_link">
+        Back to the main page
+        <img src="<?php echo URI . '/../public/images/back-arrow.svg' ?>" class="error_arrow">
+    </a>
+</div>
+
 <?php
-require_once(APP_ROOT.'/views/partials/footer.php');
+require_once(APP_ROOT . '/views/partials/footer.php');
 ?>

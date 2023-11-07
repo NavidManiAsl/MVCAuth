@@ -2,8 +2,8 @@
 require_once(APP_ROOT . "/views/partials/header.php");
 ?>
 <div class="register_window">
-    <h2 class="register_header">Register an account</h2>
-    <p>Please fill all the fields to register</p>
+    <h2 class="form_header">Register an account</h2>
+    
     <div >
         <form action="<?php echo URI ?>/users/register" method="post" class="register_form">
             <input type="text" value="<?php echo $data['username']?>" placeholder="Username" name="username" class="<?php echo !empty($data['username_error']) ? "register_input_err" : "register_input" ?>">
@@ -24,7 +24,8 @@ require_once(APP_ROOT . "/views/partials/header.php");
             </span>
             <button class="register_button">Register</button>
         </form>
-        <a href="<?php echo URI .'users/login' ?>">Already have an account? Login!</a>
+        <hr>
+        <a href="<?php echo URI .'users/login' ?>" class="form_link">Already have an account? Login!</a>
     </div>
 </div>
 <?php

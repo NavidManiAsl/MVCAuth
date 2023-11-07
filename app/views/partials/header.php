@@ -8,5 +8,6 @@
     <title><?php echo PROJECT_NAME; ?></title>
 </head>
 <body>
+    <?php require_once('navbar.php');?>    
     
 

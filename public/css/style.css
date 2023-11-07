@@ -1,46 +1,264 @@
-.register_window {
-    display: flex;
+/* --------------------CSS RESET START------------------------*/
 
-    align-items: center;
-    flex-direction: column;
-
-
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
 }
 
-.register_form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
 }
 
-.register_input {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    border-radius: 5px;
+body {
+    line-height: 1;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+blockquote,
+q {
+    quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* --------------------CSS RESET END------------------------*/
+
+
+.navbar_container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: #3498db;
+    padding: 20px 30%;
+    
 }
 
 .register_button {
-    padding: 3px 6px;
-    font-weight: 500;
-    border-radius: 5px;
-    
-}
-.register_button:hover {
-    background-color: azure;
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin-left: 10px;
+    text-decoration: none;
     cursor: pointer;
-    
+    border-radius: 5px;
+}
+
+#user_banner {
+    background-color: #e74c3c;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
     
 }
+
+#user_banner_text {
+    font-weight: 900;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: xx-large;
+}
+
+.navbar_text {
+    margin-right: auto;
+    color: #fff;
+   
+}
+
+.register_button:hover {
+    background-color: #27ae60;
+}
+
+.register_window {
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding: 20px;
+    background-color: #ecf0f1;
+    border-radius: 10px;
+    text-align: center
+}
+
+.form_link {
+    text-decoration: none;
+    margin-top: 20px;
+    display: block;
+    color: #2c3e50;
+    transition: 0.2s ease-out;
+    
+}
+.form_link:hover {
+   
+   font-size: 1.03rem;
+}
+
+.form_header {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: x-large;
+}
+
+.register_input,
 .register_input_err {
-    border:1px red solid;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.register_span,
+.register_span_err {
+    color: #e74c3c;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.register_form a {
+    color: #3498db;
+    text-decoration: none;
+    display: block;
+    margin-top: 10px;
+}
+
+.register_form a:hover {
+    text-decoration: underline;
+}
+
+.register_button {
+    background-color: #2ecc71;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.register_button:hover {
+    background-color: #27ae60;
+}
+
+.register_input_err {
+    border: 1px red solid;
     margin-top: 5px;
     margin-bottom: 5px;
     border-radius: 5px;
-}
-.register_span {
-    display: hidden;
-}
-.register_span_err {
-    color: red  ;
 }

@@ -1,8 +1,7 @@
 <?php
 
 define("APP_ROOT", dirname(dirname(__FILE__)));
-define('URI', 'http://localhost:81/mvc/');
-define('PROJECT_NAME', 'MVC-Framework');
+define('PROJECT_NAME', 'MVC-Auth');
 define('LOGS',dirname(dirname(__FILE__)).'\..\logs\\');
 
 
@@ -15,6 +14,7 @@ if (file_exists($envFile)) {
     die('.env file not found');
 }
 
+define('URI', $dotenv["BASE_URL"]);
 define("DB_USER", $dotenv["DB_USER"]);
 define("DB_PASSWORD", $dotenv["DB_PASSWORD"]);
 define("DB_HOST", $dotenv["DB_HOST"]);

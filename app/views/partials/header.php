@@ -8,6 +8,6 @@
     <title><?php echo PROJECT_NAME; ?></title>
 </head>
 <body>
-    <?php require_once('navbar.php');?>    
+    <?php if(!isset($errorPage))require_once('navbar.php');?>    
     
 
